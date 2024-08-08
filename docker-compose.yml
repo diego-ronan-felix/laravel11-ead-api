@@ -11,7 +11,7 @@ services:
         depends_on:
             - redis
         networks:
-            - laravel11
+            - laravel_ead_api
     # nginx
     nginx:
         image: nginx:alpine
@@ -22,7 +22,7 @@ services:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - laravel11
+            - laravel_ead_api
     # db mysql
     db:
         image: mysql:5.7.22
@@ -37,35 +37,12 @@ services:
         ports:
             - "3306:3306"
         networks:
-            - laravel11
+            - laravel_ead_api
     # redis
     redis:
         image: redis:latest
         networks:
-            - laravel11
-    # mailpit
-    mailpit:
-        image: axllent/mailpit:latest
-        restart: unless-stopped
-        ports:
-            - "8025:8025"
-        networks:
-            - laravel11
-    # minio
-    minio:
-        image: minio/minio:latest
-        restart: unless-stopped
-        environment:
-            MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
-        command: server /data --console-address ":9001"
-        volumes:
-            - ./minio/data:/data
-        ports:
-            - "9000:9000"
-            - "9001:9001"
-        networks:
-            - laravel11
+            - laravel_ead_api
 networks:
-    laravel11:
+    laravel_ead_api:
         driver: bridge
